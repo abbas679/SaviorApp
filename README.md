@@ -9,6 +9,12 @@ This is a personal rebuild of an app concept I originally delivered for a privat
 client (Java/XML), reimplemented from scratch in Kotlin + Jetpack Compose as an
 open-source portfolio project — no client code, data, or branding included.
 
+## Screenshots
+
+| Home | Situation Picker | Saved Places | Hidden Trigger Setup |
+|---|---|---|---|
+| ![Home](screenshots/home_screen.png) | ![Situation Picker](screenshots/situation_picker.png) | ![Saved Places](screenshots/saved_places.png) | ![Hidden Trigger Setup](screenshots/hidden_trigger_setup.png) |
+
 ## Features
 
 - **One-tap emergency trigger** from the home screen

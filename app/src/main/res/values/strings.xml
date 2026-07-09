@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Savior</string>
+    <string name="accessibility_service_description">Lets Savior detect a 3-second hold on the Volume Down button to silently send an emergency alert, even when the screen is off. Savior does not read screen content or other apps\' data — it only listens for this one button pattern.</string>
 </resources>

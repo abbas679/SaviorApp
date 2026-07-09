@@ -274,7 +274,7 @@ private fun sendAlert(
     scope.launch {
         val contacts = contactRepository.getContacts()
         val location = LocationHelper(context).getCurrentLocation()
-        val fallbackPlace = placeRepository.getPlaces().firstOrNull()
+        val fallbackPlace = placeRepository.getDefaultPlace()
         val usedFallback = location == null && fallbackPlace != null
         val message = situation.buildMessage(location?.latitude, location?.longitude, fallbackPlace)
         val failed = SmsHelper.sendEmergencyAlert(contacts, message)

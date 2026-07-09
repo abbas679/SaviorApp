@@ -10,10 +10,13 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Work
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.tahirabbas.savior.data.SavedPlace
@@ -52,8 +55,8 @@ fun SavedPlacesScreen(
         Column(modifier = Modifier.padding(padding).padding(16.dp)) {
 
             Text(
-                "These addresses are used as a backup if live GPS fails — since " +
-                        "they're plain text, they'll still send over SMS even with no internet.",
+                "Tap the star to choose which single address is sent if live GPS " +
+                        "fails — this is always explicit, never guessed.",
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(bottom = 12.dp)
             )
@@ -62,20 +65,37 @@ fun SavedPlacesScreen(
                 items(places) { place ->
                     Card(
                         shape = RoundedCornerShape(14.dp),
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp)
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
+                        colors = if (place.isDefault)
+                            CardDefaults.cardColors(containerColor = Color(0xFFFFF8E1))
+                        else
+                            CardDefaults.cardColors()
                     ) {
                         ListItem(
                             leadingContent = {
                                 Icon(iconFor(place.label), contentDescription = null)
                             },
                             headlineContent = { Text(place.label) },
-                            supportingContent = { Text(place.address) },
+                            supportingContent = {
+                                Text(
+                                    if (place.isDefault) "${place.address} · Default fallback" else place.address
+                                )
+                            },
                             trailingContent = {
-                                IconButton(onClick = {
-                                    placeRepository.removePlace(place)
-                                    places = placeRepository.getPlaces()
-                                }) {
-                                    Icon(Icons.Default.Delete, contentDescription = "Remove")
+                                Row {
+                                    IconButton(onClick = { placeRepository.setDefaultPlace(place); places = placeRepository.getPlaces() }) {
+                                        Icon(
+                                            if (place.isDefault) Icons.Default.Star else Icons.Outlined.Star,
+                                            contentDescription = "Set as default",
+                                            tint = if (place.isDefault) Color(0xFFF9A825) else Color.Gray
+                                        )
+                                    }
+                                    IconButton(onClick = {
+                                        placeRepository.removePlace(place)
+                                        places = placeRepository.getPlaces()
+                                    }) {
+                                        Icon(Icons.Default.Delete, contentDescription = "Remove")
+                                    }
                                 }
                             }
                         )

@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.tahirabbas.savior.data.ContactRepository
 import com.tahirabbas.savior.data.SavedPlaceRepository
 import com.tahirabbas.savior.ui.screens.ContactSetupScreen
+import com.tahirabbas.savior.ui.screens.HiddenTriggerSetupScreen
 import com.tahirabbas.savior.ui.screens.HomeScreen
 import com.tahirabbas.savior.ui.screens.SavedPlacesScreen
 import com.tahirabbas.savior.ui.screens.SettingsScreen
@@ -19,6 +20,7 @@ private object Routes {
     const val CONTACT_SETUP = "contact_setup"
     const val SAVED_PLACES = "saved_places"
     const val SETTINGS = "settings"
+    const val HIDDEN_TRIGGER_SETUP = "hidden_trigger_setup"
 }
 
 @Composable
@@ -63,7 +65,14 @@ fun SaviorNavGraph(
         }
 
         composable(Routes.SETTINGS) {
-            SettingsScreen(onBack = { navController.popBackStack() })
+            SettingsScreen(
+                onBack = { navController.popBackStack() },
+                onOpenHiddenTrigger = { navController.navigate(Routes.HIDDEN_TRIGGER_SETUP) }
+            )
+        }
+
+        composable(Routes.HIDDEN_TRIGGER_SETUP) {
+            HiddenTriggerSetupScreen(onBack = { navController.popBackStack() })
         }
     }
 }

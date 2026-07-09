@@ -17,12 +17,19 @@ open-source portfolio project — no client code, data, or branding included.
 - **Live location sharing** — fetches current location and includes a Google Maps
   link in the alert SMS
 - **Saved Places (offline fallback)** — save Home, Office, School, or custom addresses
-  as plain text; if live GPS is unavailable, the alert SMS automatically falls back
-  to a saved address instead — no internet/data needed, since it's just text over SMS
+  as plain text. One place is explicitly marked as the **default** (starred) — used
+  automatically if live GPS is unavailable, so the fallback is always intentional,
+  never guessed. Works with zero internet, since it's just text sent over SMS.
 - **Silent Mode on trigger** — the instant an alert is sent, the phone's ringer is
   silenced (via Do Not Disturb access), so an incoming call-back from a contact or
   responder doesn't ring out loud and risk exposing the user's location to whoever
   caused the emergency
+- **Hidden Trigger (Volume Button)** — hold Volume Down for 3 seconds, even with the
+  screen off or the phone hidden in a pocket/hand, to silently send the alert with no
+  UI interaction at all. Built on Android's Accessibility Service key-event filtering
+  (the same mechanism real safety apps like bSafe use) since Android does not expose
+  raw power-button presses to any third-party app. Requires a one-time manual grant
+  in Accessibility Settings — guided via the in-app setup screen.
 - **Up to 5 emergency contacts**, stored locally on-device
 - **Direct dial shortcut** to the relevant emergency service after sending
 
@@ -83,3 +90,7 @@ app/src/main/java/com/tahirabbas/savior/
   settings screen for this (see the banner on the Situation Picker screen if not yet granted).
 - Saved Places are deliberately plain-text (no geocoding/API call) so they work
   with zero internet connectivity — only cellular signal for the SMS itself is needed.
+- **Hidden Trigger requires all 3 setup steps** (SMS permission, location permission,
+  Accessibility Service) — the in-app "Hidden Trigger Setup" screen (under Settings)
+  shows exactly which are missing. The Accessibility Service only reads key events
+  for Volume Down; it does not read screen content or other apps' data.

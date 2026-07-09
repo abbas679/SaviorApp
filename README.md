@@ -13,7 +13,7 @@ open-source portfolio project — no client code, data, or branding included.
 
 | Home | Situation Picker | Saved Places | Hidden Trigger Setup |
 |---|---|---|---|
-| ![Home](screenshots/home_screen.png) | ![Situation Picker](screenshots/situation_picker.png) | ![Saved Places](screenshots/saved_places.png) | ![Hidden Trigger Setup](screenshots/hidden_trigger_setup.png) |
+| ![Home](screenshots/home_screen.jpg) | ![Situation Picker](screenshots/situation_picker.jpg) | ![Saved Places](screenshots/saved_places.jpg) | ![Hidden Trigger Setup](screenshots/hidden_trigger_setup.jpg) |
 
 ## Features
 

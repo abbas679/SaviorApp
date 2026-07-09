@@ -13,9 +13,16 @@ open-source portfolio project — no client code, data, or branding included.
 
 - **One-tap emergency trigger** from the home screen
 - **Situation picker** — Theft, Fire/Explosion, Accident, or Medical, each with its
-  own alert wording and mapped emergency service number
+  own color, icon, alert wording, and mapped emergency service number
 - **Live location sharing** — fetches current location and includes a Google Maps
   link in the alert SMS
+- **Saved Places (offline fallback)** — save Home, Office, School, or custom addresses
+  as plain text; if live GPS is unavailable, the alert SMS automatically falls back
+  to a saved address instead — no internet/data needed, since it's just text over SMS
+- **Silent Mode on trigger** — the instant an alert is sent, the phone's ringer is
+  silenced (via Do Not Disturb access), so an incoming call-back from a contact or
+  responder doesn't ring out loud and risk exposing the user's location to whoever
+  caused the emergency
 - **Up to 5 emergency contacts**, stored locally on-device
 - **Direct dial shortcut** to the relevant emergency service after sending
 
@@ -25,7 +32,8 @@ open-source portfolio project — no client code, data, or branding included.
 - Jetpack Compose + Material 3
 - Navigation Compose
 - Fused Location Provider (Google Play Services)
-- SharedPreferences for local contact storage (no backend — fully offline-capable)
+- AudioManager + NotificationManager (Do Not Disturb access) for Silent Mode
+- SharedPreferences for local contact/place storage (no backend — fully offline-capable)
 
 ## Project Structure
 
@@ -35,10 +43,13 @@ app/src/main/java/com/tahirabbas/savior/
 ├── data/
 │   ├── EmergencyContact.kt
 │   ├── ContactRepository.kt
+│   ├── SavedPlace.kt
+│   ├── SavedPlaceRepository.kt
 │   └── SituationType.kt
 ├── utils/
 │   ├── LocationHelper.kt
-│   └── SmsHelper.kt
+│   ├── SmsHelper.kt
+│   └── SilentModeHelper.kt
 ├── navigation/
 │   └── NavGraph.kt
 └── ui/
@@ -46,6 +57,7 @@ app/src/main/java/com/tahirabbas/savior/
     └── screens/
         ├── HomeScreen.kt
         ├── ContactSetupScreen.kt
+        ├── SavedPlacesScreen.kt
         ├── SituationPickerScreen.kt
         └── SettingsScreen.kt
 ```
@@ -65,3 +77,9 @@ app/src/main/java/com/tahirabbas/savior/
 - SMS sending requires a physical device or an emulator with SMS capability;
   most emulators cannot actually send SMS, but the permission flow and message
   construction can still be tested.
+- **Silent Mode requires a one-time manual grant**: Android restricts ringer control
+  behind "Do Not Disturb access" (`ACCESS_NOTIFICATION_POLICY`), which can't be
+  requested as a normal runtime permission — the app links directly to the system
+  settings screen for this (see the banner on the Situation Picker screen if not yet granted).
+- Saved Places are deliberately plain-text (no geocoding/API call) so they work
+  with zero internet connectivity — only cellular signal for the SMS itself is needed.

@@ -6,8 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.tahirabbas.savior.data.ContactRepository
+import com.tahirabbas.savior.data.SavedPlaceRepository
 import com.tahirabbas.savior.ui.screens.ContactSetupScreen
 import com.tahirabbas.savior.ui.screens.HomeScreen
+import com.tahirabbas.savior.ui.screens.SavedPlacesScreen
 import com.tahirabbas.savior.ui.screens.SettingsScreen
 import com.tahirabbas.savior.ui.screens.SituationPickerScreen
 
@@ -15,12 +17,14 @@ private object Routes {
     const val HOME = "home"
     const val SITUATION_PICKER = "situation_picker"
     const val CONTACT_SETUP = "contact_setup"
+    const val SAVED_PLACES = "saved_places"
     const val SETTINGS = "settings"
 }
 
 @Composable
 fun SaviorNavGraph(
     contactRepository: ContactRepository,
+    placeRepository: SavedPlaceRepository,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(navController = navController, startDestination = Routes.HOME) {
@@ -28,8 +32,10 @@ fun SaviorNavGraph(
         composable(Routes.HOME) {
             HomeScreen(
                 contactRepository = contactRepository,
+                placeRepository = placeRepository,
                 onTriggerEmergency = { navController.navigate(Routes.SITUATION_PICKER) },
                 onOpenContacts = { navController.navigate(Routes.CONTACT_SETUP) },
+                onOpenPlaces = { navController.navigate(Routes.SAVED_PLACES) },
                 onOpenSettings = { navController.navigate(Routes.SETTINGS) }
             )
         }
@@ -37,6 +43,7 @@ fun SaviorNavGraph(
         composable(Routes.SITUATION_PICKER) {
             SituationPickerScreen(
                 contactRepository = contactRepository,
+                placeRepository = placeRepository,
                 onBack = { navController.popBackStack() }
             )
         }
@@ -44,6 +51,13 @@ fun SaviorNavGraph(
         composable(Routes.CONTACT_SETUP) {
             ContactSetupScreen(
                 contactRepository = contactRepository,
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(Routes.SAVED_PLACES) {
+            SavedPlacesScreen(
+                placeRepository = placeRepository,
                 onBack = { navController.popBackStack() }
             )
         }

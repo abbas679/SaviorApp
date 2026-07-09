@@ -8,6 +8,10 @@
     <!-- Needed to send the emergency SMS to the saved contacts -->
     <uses-permission android:name="android.permission.SEND_SMS" />
 
+    <!-- Needed to silence the ringer instantly when an emergency is triggered,
+         so a call-back doesn't ring out loud and expose the user's situation -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

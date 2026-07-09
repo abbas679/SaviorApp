@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.tahirabbas.savior.data.ContactRepository
+import com.tahirabbas.savior.data.SavedPlaceRepository
 import com.tahirabbas.savior.navigation.SaviorNavGraph
 import com.tahirabbas.savior.ui.theme.SaviorTheme
 
@@ -15,11 +16,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val contactRepository = ContactRepository(applicationContext)
+        val placeRepository = SavedPlaceRepository(applicationContext)
 
         setContent {
             SaviorTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    SaviorNavGraph(contactRepository = contactRepository)
+                    SaviorNavGraph(
+                        contactRepository = contactRepository,
+                        placeRepository = placeRepository
+                    )
                 }
             }
         }
